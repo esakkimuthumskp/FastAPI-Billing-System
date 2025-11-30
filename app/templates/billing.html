@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Billing</title>
+    <script>
+      function addRow() {
+        const tbody = document.getElementById('items');
+        const idx = tbody.children.length;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>
+            <select name="product_id">
+              {% for p in products %}
+              <option value="{{p.product_id}}">{{p.product_id}} - {{p.name}} ({{p.available_stocks}})</option>
+              {% endfor %}
+            </select>
+          </td>
+          <td><input type="number" name="quantity" value="1" min="1" /></td>
+          <td><button type="button" onclick="this.closest('tr').remove()">Remove</button></td>
+        `;
+        tbody.appendChild(tr);
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Create Bill</h1>
+    <form method="post" action="/generate">
+      <label>Customer Email: <input type="email" name="customer_email" required /></label>
+      <h3>Products</h3>
+      <table>
+        <thead><tr><th>Product</th><th>Quantity</th><th></th></tr></thead>
+        <tbody id="items"></tbody>
+      </table>
+      <button type="button" onclick="addRow()">Add Product</button>
+
+      <h3>Denominations (available in shop)</h3>
+      <div>
+        {% for d in denominations %}
+          <label>{{d.value}}: <input type="number" name="denom_{{d.value}}" value="0" min="0" /></label>
+        {% endfor %}
+      </div>
+
+      <div>
+        <label>Paid Amount: <input type="number" step="0.01" name="paid_amount" required /></label>
+      </div>
+      <div>
+        <button type="submit">Generate Bill</button>
+      </div>
+    </form>
+    <script>addRow();</script>
+  </body>
+</html>

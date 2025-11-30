@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Customer Purchases</title>
+  </head>
+  <body>
+    <h1>Find Customer Purchases</h1>
+    <form method="post" action="/customers/search">
+      <label>Customer Email: <input type="email" name="customer_email" required /></label>
+      <button type="submit">Search</button>
+    </form>
+    {% if purchases %}
+      <h2>Purchases</h2>
+      <table border="1" cellpadding="6">
+        <thead>
+          <tr>
+            <th>Invoice ID</th>
+            <th>Date</th>
+            <th>Total</th>
+            <th>Paid</th>
+            <th>Change</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in purchases %}
+            <tr>
+              <td>{{p.id}}</td>
+              <td>{{p.created_at}}</td>
+              <td>{{"%.2f" % p.total}}</td>
+              <td>{{"%.2f" % p.paid_amount}}</td>
+              <td>{{"%.2f" % p.change_amount}}</td>
+              <td><a href="/bill/{{p.id}}">View</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
+    <p><a href="/">Back to billing</a></p>
+  </body>
+</html>

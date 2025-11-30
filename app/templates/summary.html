@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Bill Summary</title>
+  </head>
+  <body>
+    <h1>Bill Summary</h1>
+    <p><b>Email:</b> {{purchase.customer_email}}</p>
+    <p><b>Invoice ID:</b> {{purchase.id}}</p>
+
+    <h3>Items</h3>
+    <table border="1" cellpadding="6">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Unit Price</th>
+          <th>Tax %</th>
+          <th>Subtotal</th>
+          <th>Tax</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for it in items %}
+        <tr>
+          <td>{{it.product_name}}</td>
+          <td>{{it.quantity}}</td>
+          <td>{{"%.2f" % it.unit_price}}</td>
+          <td>{{"%.2f" % it.tax_percentage}}</td>
+          <td>{{"%.2f" % it.line_subtotal}}</td>
+          <td>{{"%.2f" % it.line_tax}}</td>
+          <td>{{"%.2f" % it.line_total}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <ul>
+      <li><b>Total price without tax:</b> {{"%.2f" % purchase.subtotal}}</li>
+      <li><b>Total tax payable:</b> {{"%.2f" % purchase.tax}}</li>
+      <li><b>Net price of the purchased item:</b> {{"%.2f" % purchase.total}}</li>
+      <li><b>Rounded down value of the purchased items net price:</b> {{purchase.total|int}}</li>
+      <li><b>Balance payable to the customer:</b> {{"%.2f" % purchase.change_amount}}</li>
+    </ul>
+
+    <ul>
+      {% for d in changes %}
+        <li>{{d.denomination_value}} x {{d.count}}</li>
+      {% endfor %}
+    </ul>
+
+    <h3>Balance Denomination (Paid by Customer)</h3>
+    <ul>
+      {% for denom, count in paid_denominations %}
+        <li>{{denom}} x {{count}}</li>
+      {% endfor %}
+    </ul>
+
+    <p><a href="/billing">Back to billing</a></p>
+  </body>
+</html>

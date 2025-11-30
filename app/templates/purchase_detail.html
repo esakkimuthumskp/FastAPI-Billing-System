@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Purchase Detail</title>
+  </head>
+  <body>
+    <h1>Purchase #{{purchase.id}}</h1>
+    <p><b>Customer:</b> {{purchase.customer_email}}</p>
+    <p><b>Date:</b> {{purchase.created_at}}</p>
+    <h3>Items</h3>
+    <ul>
+      {% for it in items %}
+        <li>{{it.quantity}} x {{it.product_name}} = {{"%.2f" % it.line_total}}</li>
+      {% endfor %}
+    </ul>
+    <p><b>Total:</b> {{"%.2f" % purchase.total}}</p>
+    <h3>Change breakdown</h3>
+    <ul>
+      {% for ch in changes %}
+        <li>{{ch.denomination_value}} x {{ch.count}}</li>
+      {% endfor %}
+    </ul>
+    <p><a href="/customers">Back</a></p>
+  </body>
+</html>

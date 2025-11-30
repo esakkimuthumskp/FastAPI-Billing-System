@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Products</title>
+  </head>
+  <body>
+    <h1>Products</h1>
+    <h2>Add Product</h2>
+    <form method="post" action="/products/add">
+      <div>
+        <label>Product ID: <input type="text" name="product_id" required /></label>
+      </div>
+      <div>
+        <label>Name: <input type="text" name="name" required /></label>
+      </div>
+      <div>
+        <label>Available Stocks: <input type="number" name="available_stocks" value="0" min="0" required /></label>
+      </div>
+      <div>
+        <label>Price Per Unit: <input type="number" step="0.01" name="price_per_unit" required /></label>
+      </div>
+      <div>
+        <label>Tax Percentage: <input type="number" step="0.01" name="tax_percentage" value="0" required /></label>
+      </div>
+      <div>
+        <button type="submit">Add Product</button>
+      </div>
+    </form>
+
+    <h2>Current Products</h2>
+    <table border="1" cellpadding="6">
+      <thead>
+        <tr>
+          <th>Product ID</th>
+          <th>Name</th>
+          <th>Stocks</th>
+          <th>Price</th>
+          <th>Tax %</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in products %}
+          <tr>
+            <td>{{p.product_id}}</td>
+            <td>{{p.name}}</td>
+            <td>{{p.available_stocks}}</td>
+            <td>{{"%.2f" % p.price_per_unit}}</td>
+            <td>{{"%.2f" % p.tax_percentage}}</td>
+            <td>
+              <a href="/products/edit/{{p.product_id}}">Edit</a>
+              |
+              <form method="post" action="/products/delete/{{p.product_id}}" style="display:inline;" onsubmit="return confirm('Delete product {{p.product_id}}?');">
+                <button type="submit">Delete</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <p><a href="/">Home</a> | <a href="/billing">Create Bill</a></p>
+  </body>
+</html>

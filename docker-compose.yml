@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  billing-app:
+    build: .
+    container_name: billing-app
+    ports:
+      - "8001:8001"
+    env_file:
+      - .env.example
+    volumes:
+      - ./billing.db:/app/billing.db
+    restart: unless-stopped
