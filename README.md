@@ -9,7 +9,7 @@ Features:
 - Automatic calculation of subtotal, tax, total, change, and denomination breakdown
 - Purchase history per customer
 - PDF invoice generation and email sending (background task)
-> Place your screenshots in a `screenshots/` folder and reference them as shown below.
+
 ### 1. Home Page
 
 Shows navigation links to Products, Billing, and Purchases.
